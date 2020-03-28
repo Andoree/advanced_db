@@ -42,4 +42,4 @@ ALTER TABLE public.inherited_child_8
 ALTER TABLE public.inherited_child_9
 	ADD CONSTRAINT partition_check CHECK(id >= 80000 and id < 90000);
 ALTER TABLE public.inherited_child_10
-	ADD CONSTRAINT partition_check CHECK(id >= 90000 and id < 100000);
+	ADD CONSTRAINT partition_check CHECK(id >= 90000);
