@@ -1,0 +1,1 @@
+VACUUM public.vacuum_task;
