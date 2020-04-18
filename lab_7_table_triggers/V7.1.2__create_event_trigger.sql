@@ -12,7 +12,7 @@ LANGUAGE plpgsql AS
 $$
 DECLARE 
 obj record;
-BEGIN;
+BEGIN
 	FOR obj IN SELECT * FROM pg_event_trigger_ddl_commands()
 	LOOP
 		INSERT INTO public.ddl_log

@@ -3,20 +3,18 @@ RETURNS TRIGGER AS
 $BODY$
 DECLARE
 new_child_id INTEGER := DIV(NEW.id, 10000);
-old_child_id INTEGER := DIV(OLD.id, 10000);
-BEGIN;
+partition_name VARCHAR := 'inherited_child_with_trigger_' || new_child_id;
+BEGIN
 
-EXECUTE format('CREATE TABLE IF NOT EXISTS public.inherited_child_with_trigger_%s INHERITS public.hub_table_triggers_lab', new_child_id );
+IF NOT EXISTS
+	(SELECT 1 FROM information_schema.tables
+		WHERE  table_name = partition_name) 
+THEN
+EXECUTE format(E'CREATE TABLE %I() INHERITS (public.hub_table_triggers_lab)', partition_name, );
 
-EXECUTE format('ALTER TABLE public.inherited_child_with_trigger_%s
-ADD CONSTRAINT partition_check CHECK(id >= new_child_id * 10000 and id < (new_child_id + 1) * 10000)', new_child_id );
-
-IF (TG_OP = 'INSERT') THEN
-	EXECUTE format('INSERT INTO public.inherited_child_with_trigger_%s VALUES (NEW.id, NEW.text_column)', new_child_id );
-ELSIF (TG_OP = 'UPDATE' AND new_child_id != old_child_id) THEN
-	EXECUTE format('INSERT INTO public.inherited_child_with_trigger_%s VALUES (NEW.id, NEW.text_column)', new_child_id );
-	EXECUTE format('DELETE FROM public.inherited_child_with_trigger_%s WHERE id=OLD.id', new_child_id );
-END IF;
+EXECUTE format('ALTER TABLE %I ADD CONSTRAINT partition_check
+	CHECK(id >= %s * 10000 and id < (%s + 1) * 10000)', partition_name, new_child_id, new_child_id);
+EXECUTE format('INSERT INTO %I VALUES($1,$2)', partition_name) using NEW.id, NEW.text_column;
 
 RETURN NULL;
 
@@ -25,10 +23,9 @@ $BODY$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER redirect_traffic_to_childs
-BEFORE INSERT OR UPDATE FOR id
-	ON public.hub_table_triggers_lab
+BEFORE INSERT ON
+	public.hub_table_triggers_lab
 	FOR EACH ROW
-	WHEN (OLD.id IS DISTINCT FROM NEW.id)
 EXECUTE redirect_rows_to_childs();
 
 
