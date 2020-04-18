@@ -46,10 +46,11 @@ IF NOT EXISTS
 THEN
 EXECUTE format(E'CREATE TABLE %I () INHERITS (public.hub_table_triggers_lab)', partition_name);
 EXECUTE format('ALTER TABLE %I ADD CONSTRAINT partition_check
-	CHECK(id >= %s * 10000 AND id <= (%s + 1) * 10000)', partition_name, new_child_id, new_child_id);
+	CHECK(id >= %s * 10000 AND id < (%s + 1) * 10000)', partition_name, new_child_id, new_child_id);
 END IF;
-EXECUTE format('DELETE FROM %I WHERE id = %s', old_partition_name) using OLD.id;
 EXECUTE format('INSERT INTO %I VALUES($1,$2)', new_partition_name) using NEW.id, NEW.text_column;
+EXECUTE format('DELETE FROM %I WHERE id = $1', old_partition_name) using OLD.id;
+
 
 RETURN NULL;
 
