@@ -46,7 +46,7 @@ new_partition_name VARCHAR := 'inherited_child_with_trigger_' || new_child_id;
 old_partition_name VARCHAR := 'inherited_child_with_trigger_' || old_child_id;
 
 BEGIN
-RAISE NOTICE 'TRIGGER ACTIVATED', new_partition_name;
+
 IF NOT EXISTS
 	(SELECT 1 FROM information_schema.tables
 		WHERE  table_name = new_partition_name) 
@@ -60,7 +60,7 @@ EXECUTE format('CREATE TRIGGER manage_child_updates
 	WHEN(OLD.id IS DISTINCT FROM NEW.id)
 	EXECUTE FUNCTION manage_child_updates()', new_partition_name);
 END IF;
-EXECUTE format('INSERT INTO %I VALUES(NEW.*)', new_partition_name);
+EXECUTE format('INSERT INTO %I VALUES($1, $2)', new_partition_name) using NEW.id, NEW.text_column;
 EXECUTE format(E'DELETE FROM %I WHERE id = $1 AND text_column = $2', old_partition_name) using OLD.id, OLD.text_column;
 
 
