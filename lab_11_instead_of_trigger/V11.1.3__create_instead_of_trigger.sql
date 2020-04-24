@@ -3,20 +3,22 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $BODY$
 	BEGIN
+		
 		IF TG_OP = 'INSERT' THEN
-			INSERT INTO public.instead_of_trigger_lab_table VALUES(NEW.type_name, NEW.value);
+			INSERT INTO public.instead_of_trigger_lab_table VALUES(NEW.type_name, NEW.sum);
 			RETURN NEW;
-		ELSIF TG_OP = 'UPDATE' OR TG_OP = 'DELETE' THEN
-			RAISE NOTICE 'Operation % is not supported on view %' TG_OP, TG_TABLE_NAME;
+		ELSIF TG_OP = 'UPDATE' or TG_OP = 'DELETE' THEN
+			RAISE NOTICE 'Operation % is not supported on view %', TG_OP, TG_TABLE_NAME;
 			RETURN NULL;
 		END IF;
 		RETURN NEW;
 	END;
-$BODY$
+$BODY$;
 
 
 
 
 CREATE TRIGGER trg_manage_view_dml_traffic
-INSTEAD OF INSERT OR UPDATE OR DELETE ON public.instead_of_trigger_lab_table
+INSTEAD OF INSERT OR UPDATE OR DELETE 
+ON instead_of_trigger_lab_view
 FOR EACH ROW EXECUTE FUNCTION manage_view_dml_traffic();
