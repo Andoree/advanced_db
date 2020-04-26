@@ -80,7 +80,7 @@ CREATE AGGREGATE public.complex_multiplication(public.complex_number)(
 	stype = public.complex_number,
 	combine_func = public.multiply_two_complex_numbers,
 	finalfunc = public.complex_multiplication_final,
-	initcond = '(1, 1)',
+	initcond = '(1, 0)',
 	parallel = safe
 );
 
@@ -112,6 +112,6 @@ CREATE AGGREGATE public.complex_division(public.complex_number)(
 	stype = public.complex_number,
 	combine_func = public.divide_two_complex_numbers,
 	finalfunc = public.complex_division_final,
-	initcond = '(1, 1)',
+	initcond = '(1, 0)',
 	parallel = safe
 );
