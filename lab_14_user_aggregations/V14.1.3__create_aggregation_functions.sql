@@ -19,7 +19,7 @@ $$ LANGUAGE plpgsql;
 CREATE AGGREGATE public.complex_sum(public.complex_number)(
 	sfunc = public.sum_two_complex_numbers,
 	stype = public.complex_number,
-	combine_func = public.sum_two_complex_numbers,
+	combinefunc = public.sum_two_complex_numbers,
 	finalfunc = public.complex_sum_final,
 	initcond = '(0, 0)',
 	parallel = safe
@@ -49,7 +49,7 @@ $$ LANGUAGE plpgsql;
 CREATE AGGREGATE public.complex_subtraction(public.complex_number)(
 	sfunc = public.subtract_two_complex_numbers,
 	stype = public.complex_number,
-	combine_func = public.subtract_two_complex_numbers,
+	combinefunc = public.subtract_two_complex_numbers,
 	finalfunc = public.complex_subtraction_final,
 	initcond = '(0, 0)',
 	parallel = safe
@@ -78,7 +78,7 @@ $$ LANGUAGE plpgsql;
 CREATE AGGREGATE public.complex_multiplication(public.complex_number)(
 	sfunc = public.multiply_two_complex_numbers,
 	stype = public.complex_number,
-	combine_func = public.multiply_two_complex_numbers,
+	combinefunc = public.multiply_two_complex_numbers,
 	finalfunc = public.complex_multiplication_final,
 	initcond = '(1, 0)',
 	parallel = safe
@@ -110,7 +110,7 @@ $$ LANGUAGE plpgsql;
 CREATE AGGREGATE public.complex_division(public.complex_number)(
 	sfunc = public.divide_two_complex_numbers,
 	stype = public.complex_number,
-	combine_func = public.divide_two_complex_numbers,
+	combinefunc = public.divide_two_complex_numbers,
 	finalfunc = public.complex_division_final,
 	initcond = '(1, 0)',
 	parallel = safe
