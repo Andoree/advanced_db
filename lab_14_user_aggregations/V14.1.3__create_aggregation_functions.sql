@@ -34,7 +34,7 @@ CREATE FUNCTION public.subtract_two_complex_numbers(
 ) RETURNS public.complex_number AS
 $$
 BEGIN
-	RETURN ROW (-complex_1.real - complex_2.real, -complex_1.imaginary - complex_2.imaginary)::public.complex_number;
+	RETURN ROW (complex_1.real - complex_2.real, complex_1.imaginary - complex_2.imaginary)::public.complex_number;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -47,7 +47,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE AGGREGATE public.complex_subtraction(public.complex_number)(
-	sfunc = public.complex_subtraction_transition,
+	sfunc = public.subtract_two_complex_numbers,
 	stype = public.complex_number,
 	combine_func = public.subtract_two_complex_numbers,
 	finalfunc = public.complex_subtraction_final,
@@ -76,7 +76,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE AGGREGATE public.complex_multiplication(public.complex_number)(
-	sfunc = public.complex_multiplication_transition,
+	sfunc = public.multiply_two_complex_numbers,
 	stype = public.complex_number,
 	combine_func = public.multiply_two_complex_numbers,
 	finalfunc = public.complex_multiplication_final,
