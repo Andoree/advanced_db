@@ -1,0 +1,61 @@
+ Merge Join  (cost=969.90..2038295049.72 rows=135366273660 width=396) (actual time=0.010..0.011 rows=0 loops=1)
+   Merge Cond: (geqo_t9.id = geqo_t1.id)
+   ->  Merge Join  (cost=264.52..1166.28 rows=51206 width=108) (actual time=0.009..0.009 rows=0 loops=1)
+ Merge Cond: (geqo_t11.id = geqo_t9.id)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (actual time=0.009..0.009 rows=0 loops=1)
+   Sort Key: geqo_t11.id
+   Sort Method: quicksort  Memory: 25kB
+   ->  Seq Scan on geqo_t11  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.005..0.005 rows=0 loops=1)
+ ->  Materialize  (cost=176.34..323.83 rows=8064 width=72) (never executed)
+   ->  Merge Join  (cost=176.34..303.67 rows=8064 width=72) (never executed)
+ Merge Cond: (geqo_t9.id = geqo_t10.id)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t9.id
+   ->  Seq Scan on geqo_t9  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t10.id
+   ->  Seq Scan on geqo_t10  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+   ->  Materialize  (cost=705.38..9263090.56 rows=528675638 width=288) (never executed)
+ ->  Merge Join  (cost=705.38..7941401.47 rows=528675638 width=288) (never executed)
+   Merge Cond: (geqo_t1.id = geqo_t5.id)
+   ->  Merge Join  (cost=352.69..5504.60 rows=325158 width=144) (never executed)
+ Merge Cond: (geqo_t1.id = geqo_t3.id)
+ ->  Merge Join  (cost=176.34..303.67 rows=8064 width=72) (never executed)
+   Merge Cond: (geqo_t1.id = geqo_t2.id)
+   ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+ Sort Key: geqo_t1.id
+ ->  Seq Scan on geqo_t1  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+   ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+ Sort Key: geqo_t2.id
+ ->  Seq Scan on geqo_t2  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+ ->  Materialize  (cost=176.34..323.83 rows=8064 width=72) (never executed)
+   ->  Merge Join  (cost=176.34..303.67 rows=8064 width=72) (never executed)
+ Merge Cond: (geqo_t3.id = geqo_t4.id)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t3.id
+   ->  Seq Scan on geqo_t3  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t4.id
+   ->  Seq Scan on geqo_t4  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+   ->  Materialize  (cost=352.69..6317.49 rows=325158 width=144) (never executed)
+ ->  Merge Join  (cost=352.69..5504.60 rows=325158 width=144) (never executed)
+   Merge Cond: (geqo_t5.id = geqo_t7.id)
+   ->  Merge Join  (cost=176.34..303.67 rows=8064 width=72) (never executed)
+ Merge Cond: (geqo_t5.id = geqo_t6.id)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t5.id
+   ->  Seq Scan on geqo_t5  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+ ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+   Sort Key: geqo_t6.id
+   ->  Seq Scan on geqo_t6  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+   ->  Materialize  (cost=176.34..323.83 rows=8064 width=72) (never executed)
+ ->  Merge Join  (cost=176.34..303.67 rows=8064 width=72) (never executed)
+   Merge Cond: (geqo_t7.id = geqo_t8.id)
+   ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+ Sort Key: geqo_t7.id
+ ->  Seq Scan on geqo_t7  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+   ->  Sort  (cost=88.17..91.35 rows=1270 width=36) (never executed)
+ Sort Key: geqo_t8.id
+ ->  Seq Scan on geqo_t8  (cost=0.00..22.70 rows=1270 width=36) (never executed)
+ Planning Time: 10.974 ms
+ Execution Time: 0.119 ms
