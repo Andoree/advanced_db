@@ -1,0 +1,19 @@
+GroupAggregate  (cost=0.00..15.64 rows=1 width=36) (actual time=7.326..7.327 rows=1 loops=1)
+   Output: id, complex_subtraction(complex_number)
+   Group Key: table_with_complex_number.id
+   Buffers: shared hit=11
+   ->  Gather  (cost=0.00..15.13 rows=1 width=50) (actual time=0.379..8.005 rows=2 loops=1)
+         Output: id, complex_number
+         Workers Planned: 3
+         Workers Launched: 3
+         Buffers: shared hit=11
+         ->  Parallel Seq Scan on public.table_with_complex_number  (cost=0.00..15.03 rows=1 width=50) (actual time=0.026..0.026 rows=0 loops=4)
+               Output: id, complex_number
+               Filter: (table_with_complex_number.id = 11)
+               Rows Removed by Filter: 250
+               Buffers: shared hit=11
+               Worker 0: actual time=0.001..0.002 rows=0 loops=1
+               Worker 1: actual time=0.001..0.001 rows=0 loops=1
+               Worker 2: actual time=0.001..0.002 rows=0 loops=1
+ Planning Time: 0.093 ms
+ Execution Time: 8.123 ms
