@@ -49,7 +49,7 @@ $$ LANGUAGE plpgsql;
 CREATE AGGREGATE public.complex_subtraction(public.complex_number)(
 	sfunc = public.subtract_two_complex_numbers,
 	stype = public.complex_number,
-	combinefunc = public.subtract_two_complex_numbers,
+	combinefunc = public.sum_two_complex_numbers,
 	finalfunc = public.complex_subtraction_final,
 	initcond = '(0, 0)',
 	parallel = safe
